@@ -16,4 +16,15 @@ FROM _regions r
   LEFT JOIN _cities c ON c.region_id = r.id
 WHERE r.title = 'Московская область';
 
+#/////Task 3////////
+SELECT
+  d.dept_name                AS departments,
+  TRUNCATE(AVG(s.salary), 0) AS AVG_salary
+FROM departments d
+  LEFT JOIN dept_emp de
+    ON de.dept_no = d.dept_no
+  LEFT JOIN salaries s
+    ON s.emp_no = de.emp_no
+GROUP BY departments;
 
+#/////Task 4////////
