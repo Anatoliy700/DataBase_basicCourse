@@ -28,3 +28,20 @@ FROM departments d
 GROUP BY departments;
 
 #/////Task 4////////
+SELECT
+  CONCAT(e.first_name, ' ', e.last_name) AS full_name,
+  MAX(s.salary)                          AS max_salary
+FROM employees e
+  LEFT JOIN salaries s ON s.emp_no = e.emp_no
+#   RIGHT JOIN salaries s ON s.emp_no = e.emp_no
+# WHERE s.emp_no IS NOT NULL
+GROUP BY e.emp_no;
+
+#/////Task 5////////
+
+
+#/////Task 6////////
+SELECT COUNT(de.emp_no) AS count_emp
+FROM departments AS d
+  LEFT JOIN dept_emp AS de
+    ON de.dept_no = d.dept_no;
