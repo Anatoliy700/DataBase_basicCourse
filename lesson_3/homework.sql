@@ -38,10 +38,38 @@ FROM employees e
 GROUP BY e.emp_no;
 
 #/////Task 5////////
-
+DELETE FROM employees
+WHERE emp_no = (
+  SELECT t.emp_no
+  FROM (
+         SELECT
+           e.emp_no,
+           MAX(s.salary) AS max_salary
+         FROM employees e
+           LEFT JOIN salaries s ON s.emp_no = e.emp_no
+         GROUP BY e.emp_no
+         ORDER BY max_salary DESC
+         LIMIT 1
+       ) AS t
+);
 
 #/////Task 6////////
 SELECT COUNT(de.emp_no) AS count_emp
 FROM departments AS d
   LEFT JOIN dept_emp AS de
     ON de.dept_no = d.dept_no;
+
+#/////Task 7////////
+SELECT
+  d.dept_name      AS departments,
+  COUNT(de.emp_no) AS count_emp,
+  SUM(s.salary)    AS total_salary
+FROM departments AS d
+  LEFT JOIN dept_emp AS de ON d.dept_no = de.dept_no
+  LEFT JOIN (SELECT
+               emp_no,
+               CEIL(AVG(salary)) AS salary
+             FROM salaries
+             GROUP BY emp_no
+            ) AS s ON s.emp_no = de.emp_no
+GROUP BY d.dept_name;
